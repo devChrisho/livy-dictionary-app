@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import * as Icons from '@material-ui/icons';
+// import * as Icons from '@material-ui/icons';
 import * as React from 'react';
 import axios from 'axios';
 
@@ -114,26 +114,26 @@ const StyledContainer = styled.div`
   }
 `;
 
-const StyledSettingsIcon = styled(Icons.Settings)`
-  color: var(--ncol200);
-  font-size: 2.5rem !important;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  cursor: pointer;
-  animation: rotating 10s infinite linear forwards;
-  animation-play-state: paused;
+// const StyledSettingsIcon = styled(Icons.Settings)`
+//   color: var(--ncol200);
+//   font-size: 2.5rem !important;
+//   position: absolute;
+//   top: 1rem;
+//   right: 1rem;
+//   cursor: pointer;
+//   animation: rotating 10s infinite linear forwards;
+//   animation-play-state: paused;
 
-  @media screen and (min-width: 600px) {
-    top: 2rem;
-    right: 2rem;
-    font-size: 3.5rem !important;
-  }
-`;
+//   @media screen and (min-width: 600px) {
+//     top: 2rem;
+//     right: 2rem;
+//     font-size: 3.5rem !important;
+//   }
+// `;
 
 const Container = () => {
   // !var States
-  const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
+  // const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
   const [isButtonClicked, setIsButtonClicked] = React.useState(false);
   const [userInput, setUserInput] = React.useState('');
   const [meanings, setMeanings] = React.useState([]);
@@ -145,9 +145,9 @@ const Container = () => {
   const audioEl = React.useRef(null);
 
   // !exp Event handlers
-  const settingsClickHandler = () => {
-    setIsSettingsOpen(!isSettingsOpen);
-  };
+  // const settingsClickHandler = () => {
+  //   setIsSettingsOpen(!isSettingsOpen);
+  // };
 
   const buttonClickHandler = () => {
     setIsButtonClicked(true);
