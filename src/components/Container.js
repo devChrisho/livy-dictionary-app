@@ -8,24 +8,25 @@ const StyledContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 3rem;
 
   position: relative;
   width: 100%;
+
+  border-radius: 2rem;
+  padding: 3rem;
+
+  color: var(--ncol100);
   background-image: linear-gradient(
     -15deg,
     var(--col100) 58%,
     var(--col200) 60%
   );
-  border-radius: 2rem;
   box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.544),
     inset -2px -2px 4px rgba(42, 42, 42, 0.243);
 
-  color: var(--ncol100);
-
   > h1 {
     font-family: var(--ff4);
-    font-size: 3.6rem;
+    font-size: 3rem;
   }
 
   .input-container {
@@ -35,6 +36,7 @@ const StyledContainer = styled.div`
     justify-content: center;
     margin-top: 2rem;
     width: 100%;
+
     input {
       font-size: 1.6rem;
       height: 4rem;
@@ -42,19 +44,27 @@ const StyledContainer = styled.div`
       outline: none;
       text-align: center;
       border: none;
-      width: 25%;
+      width: 50%;
       transition: all 0.5s ease;
+
       &:focus {
-        width: 50%;
+        width: 100%;
+      }
+      @media screen and (min-width: 600px) {
+        width: 25%;
+        &:focus {
+          width: 50%;
+        }
       }
     }
+
     button {
       font-size: 1.6rem;
       height: 4rem;
       padding: 0 2rem;
       border-radius: 0 20px 20px 0;
       background-image: linear-gradient(45deg, var(--col400), var(--col300));
-      /* background-color: var(--col400); */
+
       outline: none;
       border: none;
       &:active {
@@ -173,7 +183,7 @@ const Container = () => {
       inputEl.current.value = '';
       inputEl.current.focus();
     }
-  }
+  };
 
   // !exp Call API
   const findMeaning = async word => {
@@ -223,7 +233,12 @@ const Container = () => {
       /> */}
       <h1>My Little Dictionary</h1>
       <div className='input-container'>
-        <input type='text' placeholder='enter a word here' ref={inputEl}  onKeyPress={keypressHandler} />
+        <input
+          type='text'
+          placeholder='enter a word here'
+          ref={inputEl}
+          onKeyPress={keypressHandler}
+        />
         <button onClick={buttonClickHandler}>Find</button>
       </div>
 
