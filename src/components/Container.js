@@ -160,13 +160,12 @@ const Container = () => {
   // };
 
   const buttonClickHandler = () => {
-    setIsButtonClicked(true);
     const input = inputEl.current.value;
-    const inputVal = input.toLowerCase();
-    findMeaning(inputVal);
-    setUserInput(inputVal);
-    inputEl.current.value = '';
-    inputEl.current.focus();
+    if (input !== '') {
+      submit();
+    } else {
+      setIsButtonClicked(false);
+    }
   };
 
   const spanClickHandler = () => {
@@ -175,27 +174,43 @@ const Container = () => {
 
   const keypressHandler = e => {
     if (e.key === 'Enter') {
-      setIsButtonClicked(true);
       const input = inputEl.current.value;
-      const inputVal = input.toLowerCase();
-      findMeaning(inputVal);
-      setUserInput(inputVal);
-      inputEl.current.value = '';
-      inputEl.current.focus();
+      if (input !== '') {
+        submit();
+      } else {
+        setIsButtonClicked(false);
+      }
     }
   };
 
   // !exp Call API
   const findMeaning = async word => {
-    const api = 'https://api.dictionaryapi.dev/api/v2/entries/en_US/';
-    const endpoint = api + word;
-    const res = await axios(endpoint);
+    try {
+      const api = 'https://api.dictionaryapi.dev/api/v2/entries/en_US/';
+      const endpoint = api + word;
+      const res = await axios(endpoint);
 
-    const data = res.data[0];
-    const meanings = data.meanings;
-    const pronounciations = data.phonetics[0].audio;
-    setMeanings(meanings);
-    setPronounciation(pronounciations);
+      const data = res.data[0];
+      const meanings = data.meanings;
+      const pronounciations = data.phonetics[0].audio;
+      setMeanings(meanings);
+      setPronounciation(pronounciations);
+      setIsButtonClicked(true);
+    } catch (err) {
+      setIsButtonClicked(false);
+      console.log(err);
+      return err;
+    }
+  };
+
+  const submit = () => {
+    const input = inputEl.current.value;
+    const inputVal = input.toLowerCase();
+    findMeaning(inputVal);
+
+    setUserInput(inputVal);
+    inputEl.current.value = '';
+    inputEl.current.focus();
   };
 
   // !exp UseEffect
@@ -246,8 +261,8 @@ const Container = () => {
       {isButtonClicked ? (
         <div className='output-container'>
           <h1>
-            Here's the meaning of{' '}
-            <span onClick={spanClickHandler}>"{userInput}"</span>
+            Here's the meaning of
+            <span onClick={spanClickHandler}> "{userInput}"</span>
             <audio src={prounounciation} ref={audioEl}></audio>
           </h1>
           <div className='results-container'>{resultsList}</div>
