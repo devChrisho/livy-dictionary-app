@@ -66,7 +66,7 @@ const StyledContainer = styled.div`
     font-weight: 900;
   }
 
-/* bigger mobile phone*/
+  /* bigger mobile phone*/
   @media screen and (min-width: 600px) {
     justify-content: center;
     width: 50%;
@@ -80,6 +80,7 @@ const Container = () => {
   const [apiData, setApiData] = React.useState([]);
   const [errorMsg, setErrorMsg] = React.useState('');
   const [isErrorOpen, setIsErrorOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   return (
     <StyledContainer>

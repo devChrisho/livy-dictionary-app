@@ -96,6 +96,7 @@ const InputContainer = ({
   };
 
   const clickHandler = async () => {
+    
     if (userWord !== '' && userWord.split(' ').length === 1) {
       try {
         // !exp fetch raw data
@@ -137,7 +138,7 @@ const InputContainer = ({
   };
 
   const changeHandler = e => {
-    setUserWord(e.target.value);
+    // setUserWord(e.target.value);
   };
 
   return (
