@@ -1,275 +1,104 @@
 import styled from 'styled-components';
-// import * as Icons from '@material-ui/icons';
-import * as React from 'react';
-import axios from 'axios';
+import React from 'react';
+
+// !exp Custom components
+import InputContainer from './InputContainer';
+import OutputContainer from './OutputContainer';
+import ErrorContainer from './ErrorContainer';
 
 const StyledContainer = styled.div`
+  /* flex settings */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 
+  /* position and size */
   position: relative;
+  height: 100vh;
   width: 100%;
 
+  /* border, shadows and spacing */
   border-radius: 2rem;
   padding: 3rem;
-
-  color: var(--ncol100);
-  background-image: linear-gradient(
-    -15deg,
-    var(--col100) 58%,
-    var(--col200) 60%
-  );
   box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.544),
     inset -2px -2px 4px rgba(42, 42, 42, 0.243);
 
-  > h1 {
-    font-family: var(--ff4);
-    font-size: 3rem;
-  }
+  /* colors */
+  color: var(--ncol150);
 
-  .input-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-top: 2rem;
-    width: 100%;
+  background-image: linear-gradient(
+    342deg,
+    var(--col100) 9%,
+    var(--col200) 15%,
+    var(--col100) 20%,
+    var(--col200) 24%,
+    var(--col100) 27%,
+    var(--col200) 29%,
+    var(--col100) 30%,
+    var(--col200) 31%,
+    var(--col100) 33%,
+    var(--col200) 36%,
+    var(--col100) 40%,
+    var(--col200) 45%,
+    var(--col100) 51%,
+    var(--col200) 58%,
+    var(--col100) 66%,
+    var(--col200) 75%
+  );
+  background-size: 400%;
 
-    input {
-      font-size: 1.6rem;
-      height: 4rem;
-      border-radius: 20px 0 0 20px;
-      outline: none;
-      text-align: center;
-      border: none;
-      width: 50%;
-      transition: all 0.5s ease;
-
-      &:focus {
-        width: 100%;
-      }
-      @media screen and (min-width: 600px) {
-        width: 25%;
-        &:focus {
-          width: 50%;
-        }
-      }
-    }
-
-    button {
-      font-size: 1.6rem;
-      height: 4rem;
-      padding: 0 2rem;
-      border-radius: 0 20px 20px 0;
-      background-image: linear-gradient(45deg, var(--col400), var(--col300));
-
-      outline: none;
-      border: none;
-      &:active {
-        background-color: var(--col450);
-      }
-    }
-  }
-
-  .output-container {
-    padding: 2rem;
-    border-radius: 10px;
-    margin-top: 2rem;
-    width: 90%;
-    background-color: var(--col375);
-    > h1 {
-      span {
-        color: var(--col500);
-        cursor: pointer;
-      }
-    }
-    .results-container {
-      margin-top: 2rem;
-      div {
-        margin-top: 1.5rem;
-        h3 {
-          font-size: 1.8rem;
-          margin-top: 1rem;
-          text-align: left;
-        }
-        div {
-          margin-top: 0.5rem;
-          p {
-            margin-top: 0.3rem;
-            font-size: 1.6rem;
-          }
-        }
-      }
-    }
-  }
-
-  .rotating {
-    animation-play-state: running;
-  }
-
-  @keyframes rotating {
+  /* animation */
+  animation: movingBg 70s infinite alternate linear;
+  @keyframes movingBg {
     from {
-      transform: rotate(0deg);
+      background-position: left;
     }
     to {
-      transform: rotate(360deg);
+      background-position: right;
     }
   }
 
+  > h1 {
+    margin-top: 2rem;
+    font-family: var(--ff4);
+    font-size: 3rem;
+    font-weight: 900;
+  }
+
+/* bigger mobile phone*/
   @media screen and (min-width: 600px) {
+    justify-content: center;
     width: 50%;
     border-radius: 3rem;
   }
 `;
 
-// const StyledSettingsIcon = styled(Icons.Settings)`
-//   color: var(--ncol200);
-//   font-size: 2.5rem !important;
-//   position: absolute;
-//   top: 1rem;
-//   right: 1rem;
-//   cursor: pointer;
-//   animation: rotating 10s infinite linear forwards;
-//   animation-play-state: paused;
-
-//   @media screen and (min-width: 600px) {
-//     top: 2rem;
-//     right: 2rem;
-//     font-size: 3.5rem !important;
-//   }
-// `;
-
 const Container = () => {
   // !var States
-  // const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
-  const [isButtonClicked, setIsButtonClicked] = React.useState(false);
-  const [userInput, setUserInput] = React.useState('');
-  const [meanings, setMeanings] = React.useState([]);
-  const [resultsList, setResultsList] = React.useState([]);
-  const [prounounciation, setPronounciation] = React.useState('');
-
-  // !var Refs
-  const inputEl = React.useRef(null);
-  const audioEl = React.useRef(null);
-
-  // !exp Event handlers
-  // const settingsClickHandler = () => {
-  //   setIsSettingsOpen(!isSettingsOpen);
-  // };
-
-  const buttonClickHandler = () => {
-    const input = inputEl.current.value;
-    if (input !== '') {
-      submit();
-    } else {
-      setIsButtonClicked(false);
-    }
-  };
-
-  const spanClickHandler = () => {
-    audioEl.current.play();
-  };
-
-  const keypressHandler = e => {
-    if (e.key === 'Enter') {
-      const input = inputEl.current.value;
-      if (input !== '') {
-        submit();
-      } else {
-        setIsButtonClicked(false);
-      }
-    }
-  };
-
-  // !exp Call API
-  const findMeaning = async word => {
-    try {
-      const api = 'https://api.dictionaryapi.dev/api/v2/entries/en_US/';
-      const endpoint = api + word;
-      const res = await axios(endpoint);
-
-      const data = res.data[0];
-      const meanings = data.meanings;
-      const pronounciations = data.phonetics[0].audio;
-      setMeanings(meanings);
-      setPronounciation(pronounciations);
-      setIsButtonClicked(true);
-    } catch (err) {
-      setIsButtonClicked(false);
-      console.log(err);
-      return err;
-    }
-  };
-
-  const submit = () => {
-    const input = inputEl.current.value;
-    const inputVal = input.toLowerCase();
-    findMeaning(inputVal);
-
-    setUserInput(inputVal);
-    inputEl.current.value = '';
-    inputEl.current.focus();
-  };
-
-  // !exp UseEffect
-  React.useEffect(() => {
-    if (meanings.length !== 0) {
-      const mappedResults = meanings.map(item => {
-        const example = item.definitions[0].example;
-        const definition = item.definitions[0].definition;
-        const partOfSpeech = item.partOfSpeech;
-
-        return (
-          <div key={partOfSpeech}>
-            <h3>{partOfSpeech}</h3>
-            <div>
-              <p>
-                <strong>Meaning: </strong> {definition}
-              </p>
-              <p>
-                <strong>Example: </strong> {example}
-              </p>
-            </div>
-          </div>
-        );
-      });
-
-      setResultsList(mappedResults);
-    }
-  }, [meanings]);
+  const [userWord, setUserWord] = React.useState('');
+  const [apiData, setApiData] = React.useState([]);
+  const [errorMsg, setErrorMsg] = React.useState('');
+  const [isErrorOpen, setIsErrorOpen] = React.useState(false);
 
   return (
     <StyledContainer>
-      {/* <StyledSettingsIcon
-        onClick={settingsClickHandler}
-        className={isSettingsOpen ? 'rotating' : ''}
-      /> */}
       <h1>My Little Dictionary</h1>
-      <div className='input-container'>
-        <input
-          type='text'
-          placeholder='enter a word here'
-          ref={inputEl}
-          onKeyPress={keypressHandler}
-        />
-        <button onClick={buttonClickHandler}>Find</button>
-      </div>
+      <ErrorContainer
+        errorMsg={errorMsg}
+        isErrorOpen={isErrorOpen}
+        setIsErrorOpen={setIsErrorOpen}
+      />
+      <InputContainer
+        userWord={userWord}
+        setUserWord={setUserWord}
+        setApiData={setApiData}
+        setErrorMsg={setErrorMsg}
+        setIsErrorOpen={setIsErrorOpen}
+      />
 
       {/* Output container */}
-      {isButtonClicked ? (
-        <div className='output-container'>
-          <h1>
-            Here's the meaning of
-            <span onClick={spanClickHandler}> "{userInput}"</span>
-            <audio src={prounounciation} ref={audioEl}></audio>
-          </h1>
-          <div className='results-container'>{resultsList}</div>
-        </div>
-      ) : (
-        ''
-      )}
+      <OutputContainer apiData={apiData} userWord={userWord} />
     </StyledContainer>
   );
 };
