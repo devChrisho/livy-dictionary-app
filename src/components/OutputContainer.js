@@ -7,6 +7,8 @@ const StyledContainer = styled.div`
   margin-top: 2rem;
   width: 100%;
 
+  /* position: absolute; */
+
   overflow-y: scroll;
   /* hide the scrollbar */
   scrollbar-width: none;
@@ -16,24 +18,27 @@ const StyledContainer = styled.div`
   }
 
   background-color: var(--col375);
-  > h1 {
+  h1.output_header {
     position: sticky;
     top: 0;
+
+    padding: 3rem;
+    width: 100%;
 
     background-image: linear-gradient(
       0deg,
       rgba(255, 240, 229, 0.284),
       hsl(25, 100%, 95%) 25%
     );
-    padding: 3rem;
-    width: 100%;
 
     color: var(--ncol150);
+
     span {
       color: var(--col500);
       cursor: pointer;
     }
   }
+
   .results-container {
     overflow-wrap: break-word;
     p {
@@ -50,7 +55,7 @@ const StyledContainer = styled.div`
 const OutputContainer = ({ apiData, userWord }) => {
   return (
     <StyledContainer>
-      <h1>
+      <h1 className='output_header'>
         Here's the meaning of
         <span> "{userWord}"</span>
         <audio></audio>

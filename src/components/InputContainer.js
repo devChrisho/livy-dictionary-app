@@ -1,20 +1,10 @@
 import styled from 'styled-components';
 import React from 'react';
 
-
-import SearchBar from './SearchBar'
 import SearchBarButton from './SearchBarButton';
 
 // !exp custom helper functions
-import {
-  fetchWord,
-  endpointFn,
-  prefixSetter,
-  playAudio,
-  filterFn,
-  hwChecker,
-} from '../util';
-
+import util from '../util';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -26,7 +16,33 @@ const StyledContainer = styled.div`
   margin-top: 2rem;
 `;
 
+const StyledSearchBar = styled.input`
+  width: 50%;
+  height: 4rem;
 
+  border-radius: 20px 0 0 20px;
+  border: none;
+  outline: none;
+
+  font-size: 1.6rem;
+  text-align: center;
+  color: var(--ncol150);
+
+  background-color: rgba(255, 255, 255, 0.551);
+
+  transition: all 0.5s ease;
+
+  &:focus {
+    width: 100%;
+    background-color: rgb(247, 247, 247);
+  }
+  @media screen and (min-width: 600px) {
+    width: 25%;
+    &:focus {
+      width: 50%;
+    }
+  }
+`;
 
 const InputContainer = ({
   userWord,
@@ -37,25 +53,19 @@ const InputContainer = ({
 }) => {
   const inputEl = React.useRef(null);
 
-  // !exp web speech speechsynthesis API
-  const synthSpeak = wordToSpeak => {
-    let utterance = new SpeechSynthesisUtterance(wordToSpeak);
-    const synth = window.speechSynthesis;
-    synth.speak(utterance);
-  };
-
   const clickHandler = async () => {
-    
-    if (userWord !== '' && userWord.split(' ').length === 1) {
-      try {
-        // !exp fetch raw data
+    let currentWord = util.userWordFormatter(inputEl.current.value);
 
-        const data = await fetchWord(endpointFn(0, userWord));
+    if (util.currentWordChecker(currentWord)) {
+      try {
+        const endpoint = util.endpointFn(0, currentWord);
+        const data = await util.fetchWord(endpoint);
+        console.log(data);
 
         console.log('Checking if meta id includes headword');
-        if (hwChecker(data, userWord)) {
+        if (util.hwChecker(data, currentWord)) {
           console.log('Meta id includes search word. Running filter');
-          const filteredData = filterFn(data, userWord);
+          const filteredData = util.filterFn(data, currentWord);
 
           console.log('filteredData: ', filteredData);
           setApiData(filteredData);
@@ -64,45 +74,39 @@ const InputContainer = ({
           const audioId = filteredData[0].hwi?.prs[0]?.sound?.audio;
           if (audioId) {
             console.log('AudioId exists. Playing mp3');
-            const prefix = prefixSetter(audioId);
+            const prefix = util.prefixSetter(audioId);
 
-            await playAudio(audioId, prefix);
+            await util.playAudio(audioId, prefix);
           } else {
             console.log(
               "AudioId doesn't exist. Using Web Speech Synthesis API."
             );
-            synthSpeak(userWord);
+            util.synthSpeak(currentWord);
+            setUserWord(currentWord);
           }
         } else {
           console.log("can't find the word");
-          setErrorMsg(`Can't find the word: "${userWord}"`);
+          setErrorMsg(`Can't find the word: "${currentWord}"`);
           setIsErrorOpen(true);
         }
       } catch (err) {
         return err;
       }
     } else {
-      setApiData([]);
+      setErrorMsg('Please enter only 1 word');
+      setIsErrorOpen(true);
     }
-  };
-
-  const changeHandler = e => {
-    setUserWord(e.target.value);
   };
 
   return (
     <StyledContainer>
-      <SearchBar
+      <StyledSearchBar
         type='text'
         placeholder='enter a word here'
-        onChange={changeHandler}
         autoComplete='off'
         ref={inputEl}
       />
-      <SearchBarButton onClick={clickHandler}>
-        
-        Find
-      </SearchBarButton>
+      <SearchBarButton onClick={clickHandler}>Find</SearchBarButton>
     </StyledContainer>
   );
 };

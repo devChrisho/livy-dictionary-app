@@ -14,7 +14,6 @@ const StyledContainer = styled.div`
   align-items: center;
 
   /* position and size */
-  position: relative;
   height: 100vh;
   width: 100%;
 
@@ -97,8 +96,6 @@ const Container = () => {
         setErrorMsg={setErrorMsg}
         setIsErrorOpen={setIsErrorOpen}
       />
-
-      {/* Output container */}
       <OutputContainer apiData={apiData} userWord={userWord} />
     </StyledContainer>
   );

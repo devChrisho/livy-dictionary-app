@@ -31,10 +31,11 @@ const StyledFindIcon = styled(Icons.SearchRounded)`
   color: var(--ncol150);
 `;
 
-const SearchBarButton = () => {
+const SearchBarButton = (props) => {
+ 
   return (
-    <StyledSearchButton>
-      Find
+    <StyledSearchButton {...props}>
+      {props.children}
       <StyledFindIcon />
     </StyledSearchButton>
   );

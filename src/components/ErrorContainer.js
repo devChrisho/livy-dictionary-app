@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import * as Icons from '@material-ui/icons';
 
 const StyledContainer = styled.div`
-  position: absolute;
+  /* position: fixed; */
   top: 0;
   height: 100%;
   width: 100vw;
