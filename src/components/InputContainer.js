@@ -4,7 +4,10 @@ import React from 'react';
 import SearchBarButton from './SearchBarButton';
 
 // !exp custom helper functions
-import util from '../util';
+import util from '../util/util';
+
+// !exp API
+import fetchWord from '../api/API';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -100,13 +103,15 @@ const InputContainer = ({
 
   return (
     <StyledContainer>
-      <StyledSearchBar
-        type='text'
-        placeholder='enter a word here'
-        autoComplete='off'
-        ref={inputEl}
-      />
-      <SearchBarButton onClick={clickHandler}>Find</SearchBarButton>
+      <form>
+        <StyledSearchBar
+          type="text"
+          placeholder="enter a word here"
+          autoComplete="off"
+          ref={inputEl}
+        />
+        <SearchBarButton onClick={clickHandler}>Find</SearchBarButton>
+      </form>
     </StyledContainer>
   );
 };
