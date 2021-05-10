@@ -52,12 +52,12 @@ const StyledContainer = styled.div`
   }
 `;
 
-const OutputContainer = ({ apiData, userWord }) => {
+const OutputContainer = ({ apiData, submittedWord }) => {
   return (
     <StyledContainer>
       <h1 className='output_header'>
         Here's the meaning of
-        <span> "{userWord}"</span>
+        <span> "{submittedWord}"</span>
         <audio></audio>
       </h1>
       <div className='results-container'>

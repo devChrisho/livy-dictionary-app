@@ -6,7 +6,7 @@ import SearchBarButton from './SearchBarButton';
 // !exp custom helper functions
 import util from '../util';
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.form`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -44,69 +44,89 @@ const StyledSearchBar = styled.input`
   }
 `;
 
-const InputContainer = ({
-  userWord,
-  setUserWord,
-  setApiData,
-  setErrorMsg,
-  setIsErrorOpen,
-}) => {
-  const inputEl = React.useRef(null);
+// const InputContainer = ({
+//   userWord,
+//   setUserWord,
+//   setApiData,
+//   setErrorMsg,
+//   setIsErrorOpen,
+// }) => {
+//   const keypressHandler = e => {
+//     setUserWord(e.target.value);
+//     console.log(userWord)
+//   };
+//   const clickHandler = () => {};
 
-  const clickHandler = async () => {
-    let currentWord = util.userWordFormatter(inputEl.current.value);
+//   //   if (util.currentWordChecker(currentWord)) {
+//   //     try {
+//   //       const endpoint = util.endpointFn(0, currentWord);
+//   //       const data = await util.fetchWord(endpoint);
+//   //       console.log(data);
 
-    if (util.currentWordChecker(currentWord)) {
-      try {
-        const endpoint = util.endpointFn(0, currentWord);
-        const data = await util.fetchWord(endpoint);
-        console.log(data);
+//   //       console.log('Checking if meta id includes headword');
+//   //       if (util.hwChecker(data, currentWord)) {
+//   //         console.log('Meta id includes search word. Running filter');
+//   //         const filteredData = util.filterFn(data, currentWord);
 
-        console.log('Checking if meta id includes headword');
-        if (util.hwChecker(data, currentWord)) {
-          console.log('Meta id includes search word. Running filter');
-          const filteredData = util.filterFn(data, currentWord);
+//   //         console.log('filteredData: ', filteredData);
+//   //         setApiData(filteredData);
 
-          console.log('filteredData: ', filteredData);
-          setApiData(filteredData);
+//   //         console.log('Getting audioId...');
+//   //         const audioId = filteredData[0].hwi?.prs[0]?.sound?.audio;
+//   //         if (audioId) {
+//   //           console.log('AudioId exists. Playing mp3');
+//   //           const prefix = util.prefixSetter(audioId);
 
-          console.log('Getting audioId...');
-          const audioId = filteredData[0].hwi?.prs[0]?.sound?.audio;
-          if (audioId) {
-            console.log('AudioId exists. Playing mp3');
-            const prefix = util.prefixSetter(audioId);
+//   //           await util.playAudio(audioId, prefix);
+//   //         } else {
+//   //           console.log(
+//   //             "AudioId doesn't exist. Using Web Speech Synthesis API."
+//   //           );
+//   //           util.synthSpeak(currentWord);
+//   //           setUserWord(currentWord);
+//   //         }
+//   //       } else {
+//   //         console.log("can't find the word");
+//   //         setErrorMsg(`Can't find the word: "${currentWord}"`);
+//   //         setIsErrorOpen(true);
+//   //       }
+//   //     } catch (err) {
+//   //       return err;
+//   //     }
+//   //   } else {
+//   //     setErrorMsg('Please enter only 1 word');
+//   //     setIsErrorOpen(true);
+//   //   }
+//   // };
 
-            await util.playAudio(audioId, prefix);
-          } else {
-            console.log(
-              "AudioId doesn't exist. Using Web Speech Synthesis API."
-            );
-            util.synthSpeak(currentWord);
-            setUserWord(currentWord);
-          }
-        } else {
-          console.log("can't find the word");
-          setErrorMsg(`Can't find the word: "${currentWord}"`);
-          setIsErrorOpen(true);
-        }
-      } catch (err) {
-        return err;
-      }
-    } else {
-      setErrorMsg('Please enter only 1 word');
-      setIsErrorOpen(true);
-    }
+// };
+
+const InputContainer = ({ setSubmittedWord }) => {
+
+  const [userWord, setUserWord] = React.useState('');
+  // !exp this makes the input text a controlled component
+  const keypressHandler = e => {
+    setUserWord(e.target.value);
+  };
+
+  // !exp Submit event handler 
+  const submitHandler = e => {
+    e.preventDefault();
+    setSubmittedWord(userWord);
   };
 
   return (
-    <StyledContainer>
+    <StyledContainer onSubmit={submitHandler}>
       <StyledSearchBar
-        type='text'
-        placeholder='enter a word here'
-        autoComplete='off'
-        ref={inputEl}
+        type="text"
+        placeholder="enter a word here"
+        autoComplete="off"
+        onChange={keypressHandler}
+        value={userWord}
       />
-      <SearchBarButton onClick={clickHandler}>Find</SearchBarButton>
+
+      <SearchBarButton type="submit">Find</SearchBarButton>
+     
     </StyledContainer>
   );
 };

@@ -75,11 +75,12 @@ const StyledContainer = styled.div`
 
 const Container = () => {
   // !var States
-  const [userWord, setUserWord] = React.useState('');
+
   const [apiData, setApiData] = React.useState([]);
   const [errorMsg, setErrorMsg] = React.useState('');
   const [isErrorOpen, setIsErrorOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [submittedWord, setSubmittedWord] = React.useState('');
 
   return (
     <StyledContainer>
@@ -90,13 +91,12 @@ const Container = () => {
         setIsErrorOpen={setIsErrorOpen}
       />
       <InputContainer
-        userWord={userWord}
-        setUserWord={setUserWord}
         setApiData={setApiData}
         setErrorMsg={setErrorMsg}
         setIsErrorOpen={setIsErrorOpen}
+        setSubmittedWord={setSubmittedWord}
       />
-      <OutputContainer apiData={apiData} userWord={userWord} />
+      <OutputContainer apiData={apiData} submittedWord={submittedWord} />
     </StyledContainer>
   );
 };
