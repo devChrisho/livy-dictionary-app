@@ -14,12 +14,15 @@ const GlobalStyles = createGlobalStyle`
   --col500: hsl(245, 100%, 77%);
   --col550: hsl(245, 100%, 82%);
 
-  --ncol100: hsl(0, 0%, 20%);
-  --ncol150: hsl(0, 0%, 30%);
-  --ncol200: hsl(0, 0%, 40%);
-  --ncol300: hsl(0, 0%, 60%);
-  --ncol400: hsl(0, 0%, 80%);
-  --ncol500: hsl(0, 0%, 90%);
+  --ncol100: hsl(0, 0%, 90%);
+  --ncol200: hsl(0, 0%, 80%);
+  --ncol300: hsl(0, 0%, 70%);
+  --ncol400: hsl(0, 0%, 60%);
+  --ncol500: hsl(0, 0%, 50%);
+  --ncol600: hsl(0, 0%, 40%);
+  --ncol700:hsl(0, 0%, 30%);
+  --ncol800:hsl(0, 0%, 20%);
+  --ncol900:hsl(0, 0%, 10%);
 
   --ff1:'Quicksand', sans-serif;
   --ff2: 'Fredoka One', cursive;

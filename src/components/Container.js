@@ -7,10 +7,11 @@ import OutputContainer from './OutputContainer';
 import ErrorContainer from './ErrorContainer';
 
 const StyledContainer = styled.div`
+  position: relative;
   /* flex settings */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
 
   /* position and size */
@@ -84,12 +85,13 @@ const Container = () => {
 
   return (
     <StyledContainer>
-      <h1>My Little Dictionary</h1>
       <ErrorContainer
         errorMsg={errorMsg}
-        isErrorOpen={isErrorOpen}
+        isErrorOpen={true}
         setIsErrorOpen={setIsErrorOpen}
       />
+      <h1>My Little Dictionary</h1>
+
       <InputContainer
         setApiData={setApiData}
         setErrorMsg={setErrorMsg}

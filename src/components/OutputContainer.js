@@ -18,7 +18,7 @@ const StyledContainer = styled.div`
   }
 
   background-color: var(--col375);
-  h1.output_header {
+  .output_header {
     position: sticky;
     top: 0;
 
@@ -55,12 +55,12 @@ const StyledContainer = styled.div`
 const OutputContainer = ({ apiData, submittedWord }) => {
   return (
     <StyledContainer>
-      <h1 className='output_header'>
+      <h1 className="output_header">
         Here's the meaning of
         <span> "{submittedWord}"</span>
         <audio></audio>
       </h1>
-      <div className='results-container'>
+      <div className="results-container">
         <p>{JSON.stringify(apiData)}</p>
       </div>
     </StyledContainer>

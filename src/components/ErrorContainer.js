@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import * as Icons from '@material-ui/icons';
 
 const StyledContainer = styled.div`
-  /* position: fixed; */
+  position: fixed;
   top: 0;
   height: 100%;
   width: 100vw;
@@ -14,7 +14,7 @@ const StyledContainer = styled.div`
     flex-direction: column;
     align-items: center;
 
-    position: absolute;
+  
     top: 50vh;
     left: 50vw;
     transform: translate(-50%, -50%);
@@ -87,7 +87,7 @@ const ErrorContainer = ({ errorMsg, isErrorOpen, setIsErrorOpen }) => {
       </StyledContainer>
     );
   } else {
-    return <></>;
+    return null;
   }
 };
 
