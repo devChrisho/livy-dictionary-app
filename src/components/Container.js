@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import React from 'react';
+import styled from "styled-components";
+import React from "react";
+import Header from "./Header/Header";
+import Body from "./Body/Body";
+import Footer from "./Footer/Footer";
 
 // !exp Custom components
-import InputContainer from './InputContainer';
-import OutputContainer from './OutputContainer';
-import ErrorContainer from './ErrorContainer';
 
 const StyledContainer = styled.div`
   position: relative;
@@ -77,28 +77,11 @@ const StyledContainer = styled.div`
 const Container = () => {
   // !var States
 
-  const [apiData, setApiData] = React.useState([]);
-  const [errorMsg, setErrorMsg] = React.useState('');
-  const [isErrorOpen, setIsErrorOpen] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [submittedWord, setSubmittedWord] = React.useState('');
-
   return (
     <StyledContainer>
-      <ErrorContainer
-        errorMsg={errorMsg}
-        isErrorOpen={true}
-        setIsErrorOpen={setIsErrorOpen}
-      />
-      <h1>My Little Dictionary</h1>
-
-      <InputContainer
-        setApiData={setApiData}
-        setErrorMsg={setErrorMsg}
-        setIsErrorOpen={setIsErrorOpen}
-        setSubmittedWord={setSubmittedWord}
-      />
-      <OutputContainer apiData={apiData} submittedWord={submittedWord} />
+      <Header />
+      <Body />
+      <Footer />
     </StyledContainer>
   );
 };
